@@ -85,7 +85,7 @@ public class CraftInventoryCrafting extends CraftInventory implements CraftingIn
     }
 
     public ItemStack[] getMatrix() {
-        ItemStack[] items = new ItemStack[getSize()];
+        ItemStack[] items = new ItemStack[getMatrixInventory().getSize()];
         net.minecraft.server.ItemStack[] matrix = getMatrixInventory().getContents();
 
         for (int i = 0; i < matrix.length; i++ ) {
