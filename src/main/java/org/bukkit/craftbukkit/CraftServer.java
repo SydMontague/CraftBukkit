@@ -94,7 +94,6 @@ import org.bukkit.craftbukkit.updater.AutoUpdater;
 import org.bukkit.craftbukkit.updater.BukkitDLUpdaterService;
 import org.bukkit.craftbukkit.util.CraftIconCache;
 import org.bukkit.craftbukkit.util.DatFileFilter;
-import org.bukkit.craftbukkit.util.Log4jConverter;
 import org.bukkit.craftbukkit.util.Versioning;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -188,7 +187,7 @@ public final class CraftServer implements Server {
     }
 
     public CraftServer(MinecraftServer console, PlayerList playerList) {
-        this.logger = Log4jConverter.createLogger();
+        this.logger = Logger.getLogger("Minecraft");
         this.console = console;
         this.playerList = (DedicatedPlayerList) playerList;
         this.serverVersion = CraftServer.class.getPackage().getImplementationVersion();
@@ -962,11 +961,13 @@ public final class CraftServer implements Server {
     public void clearRecipes() {
         CraftingManager.getInstance().recipes.clear();
         RecipesFurnace.getInstance().recipes.clear();
+        RecipesFurnace.getInstance().customRecipes.clear();
     }
 
     public void resetRecipes() {
         CraftingManager.getInstance().recipes = new CraftingManager().recipes;
         RecipesFurnace.getInstance().recipes = new RecipesFurnace().recipes;
+        RecipesFurnace.getInstance().customRecipes.clear();
     }
 
     public Map<String, String[]> getCommandAliases() {

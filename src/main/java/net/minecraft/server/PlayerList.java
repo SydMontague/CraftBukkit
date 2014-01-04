@@ -262,7 +262,7 @@ public abstract class PlayerList {
                 continue;
             }
             // .name -> .listName
-            entityplayer.playerConnection.sendPacket(new PacketPlayOutPlayerInfo(entityplayer1.getName(), true, entityplayer1.ping));
+            entityplayer.playerConnection.sendPacket(new PacketPlayOutPlayerInfo(entityplayer1.listName, true, entityplayer1.ping));
             // CraftBukkit end
         }
     }
@@ -819,7 +819,7 @@ public abstract class PlayerList {
         this.operators.add(s.toLowerCase());
 
         // CraftBukkit start
-        Player player = server.server.getPlayer(s);
+        Player player = server.server.getPlayerExact(s);
         if (player != null) {
             player.recalculatePermissions();
         }
@@ -830,7 +830,7 @@ public abstract class PlayerList {
         this.operators.remove(s.toLowerCase());
 
         // CraftBukkit start
-        Player player = server.server.getPlayer(s);
+        Player player = server.server.getPlayerExact(s);
         if (player != null) {
             player.recalculatePermissions();
         }
