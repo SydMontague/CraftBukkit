@@ -4,12 +4,14 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import net.minecraft.server.BanEntry;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.WorldNBTStorage;
 
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -40,6 +42,20 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
         return name;
     }
 
+    // TODO: In 1.7.6+ OfflinePlayer lookup should be by UUID and store it like it does the name now
+    public UUID getUniqueId() {
+        NBTTagCompound data = getData();
+        if (data == null) {
+            return null;
+        }
+
+        if (data.hasKeyOfType("UUIDMost", 4) && data.hasKeyOfType("UUIDLeast", 4)) {
+            return new UUID(data.getLong("UUIDMost"), data.getLong("UUIDLeast"));
+        }
+
+        return null;
+    }
+
     public Server getServer() {
         return server;
     }
@@ -59,18 +75,15 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
     }
 
     public boolean isBanned() {
-        return server.getHandle().getNameBans().isBanned(name.toLowerCase());
+        return server.getBanList(BanList.Type.NAME).isBanned(getName());
     }
 
     public void setBanned(boolean value) {
         if (value) {
-            BanEntry entry = new BanEntry(name.toLowerCase());
-            server.getHandle().getNameBans().add(entry);
+            server.getBanList(BanList.Type.NAME).addBan(getName(), null, null, null);
         } else {
-            server.getHandle().getNameBans().remove(name.toLowerCase());
+            server.getBanList(BanList.Type.NAME).pardon(getName());
         }
-
-        server.getHandle().getNameBans().save();
     }
 
     public boolean isWhitelisted() {
