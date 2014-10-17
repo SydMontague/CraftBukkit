@@ -4,7 +4,7 @@
   <groupId>org.bukkit</groupId>
   <artifactId>craftbukkit</artifactId>
   <packaging>jar</packaging>
-  <version>1.7.10-R0.1-SNAPSHOT</version>
+  <version>1.7.10-R0.1-SNAPSHOT-CRAFTLANCER</version>
   <name>CraftBukkit</name>
   <url>http://www.bukkit.org</url>
 
@@ -212,7 +212,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>1.4</version>
+        <version>1.5</version>
         <executions>
           <execution>
             <phase>package</phase>

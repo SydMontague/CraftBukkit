@@ -303,6 +303,41 @@ public final class ItemStack {
             return this.damage > this.l();
         }
     }
+    
+    /* CraftBukkit start - implement PlayerItemDamageEvent */
+    public boolean isDamaged(int i, EntityLiving entity) {
+        Random random = entity.aI();
+        if (!this.g()) {
+            return false;
+        } else {
+            if (i > 0) {
+                int j = EnchantmentManager.getEnchantmentLevel(Enchantment.DURABILITY.id, this);
+                int k = 0;
+
+                for (int l = 0; j > 0 && l < i; ++l) {
+                    if (EnchantmentDurability.a(this, j, random)) {
+                        ++k;
+                    }
+                }
+
+                i -= k;
+                if (i <= 0) {
+                    return false;
+                }
+            }
+            
+            if(entity instanceof EntityHuman) {
+                org.bukkit.event.player.PlayerItemDamageEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callPlayerItemDamageEvent((EntityHuman) entity, this);
+                
+                if(!event.isCancelled())
+                    this.damage += i;
+            } else            
+                this.damage += i;
+            
+            return this.damage > this.l();
+        }
+    }
+    /* CraftBukkit end */
 
     public void damage(int i, EntityLiving entityliving) {
         if (!(entityliving instanceof EntityHuman) || !((EntityHuman) entityliving).abilities.canInstantlyBuild) {

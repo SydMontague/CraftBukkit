@@ -764,6 +764,13 @@ public class CraftEventFactory {
         PlayerItemBreakEvent event = new PlayerItemBreakEvent((Player) human.getBukkitEntity(), item);
         Bukkit.getPluginManager().callEvent(event);
     }
+    
+    public static PlayerItemDamageEvent callPlayerItemDamageEvent(EntityHuman human, ItemStack damagedItem) {
+        CraftItemStack item = CraftItemStack.asCraftMirror(damagedItem);
+        PlayerItemDamageEvent event = new PlayerItemDamageEvent((Player) human.getBukkitEntity(), item);
+        Bukkit.getPluginManager().callEvent(event);
+        return event;
+    }
 
     public static BlockIgniteEvent callBlockIgniteEvent(World world, int x, int y, int z, int igniterX, int igniterY, int igniterZ) {
         org.bukkit.World bukkitWorld = world.getWorld();
