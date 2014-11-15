@@ -334,6 +334,10 @@ public abstract class EntityInsentient extends EntityLiving {
                                 flag = false;
                             }
                         }
+                        
+                        // CraftBukkit start - don't pick up sponges
+                        flag = itemstack.doMaterialsMatch(new ItemStack(Blocks.SPONGE)) ? false : flag;
+                        // CraftBukkit end
 
                         if (flag) {
                             if (itemstack1 != null && this.random.nextFloat() - 0.1F < this.dropChances[i]) {
